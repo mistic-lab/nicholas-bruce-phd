@@ -9,21 +9,23 @@ parser = argparse.ArgumentParser(
     description='Creates an ACM from integrated spectra.', 
     formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-# parser.add_argument('input', type=str,
-#                     help='input h5 file of time series')
-parser.add_argument("--antenna", type=int, default=240,
+parser.add_argument('input', type=str,
+                    help='input h5 file of time series')
+parser.add_argument('--find-antenna', type=bool, default=True,
+                    help="Whether to search h5 attributes for a reference antenna")
+parser.add_argument("--antenna", type=int,
                     help='antenna index to use')
 parser.add_argument("--unwrap", type=bool, default=False,
                     help="whether to unwrap the phase or not")
 args = parser.parse_args()
 
 
-coords = np.load('antennas.npy')
+coords = np.load('/home/nsbruce/Documents/UViip/LWA_Data/antennas.npy')
 #0:x, 1:y, 2:z
 coords = coords[:,:-1]
 
 
-with h5py.File('058628_001748255_ACM.hdf5','r') as f:
+with h5py.File(args.input,'r') as f:
     arr = np.angle(f['pol0'])
 
     arr = arr[:-1,:]
@@ -39,11 +41,19 @@ with h5py.File('058628_001748255_ACM.hdf5','r') as f:
     phaseMax = np.max(arr)
     phaseMin = np.min(arr)
 
+    if args.find_antenna:
+        antID = f.attrs['antID']
+    else:
+        try:
+            antID = args.antenna
+        except:
+            raise Exception('Reference antID not found in attributes. Please specify one using the --antenna flag.')
+
     for i in range(arr.shape[1]):
         fig, ax = plt.subplots()
-        fig.suptitle("Relative phase of 5.04MHz signal (100 integrations)")
+        fig.suptitle("Relative phase of 5MHz signal (fft size 1000)")
         ax.plot(coords[0], coords[1], 'ko', ms=3)
-        ax.plot(coords[0, args.antenna], coords[1, args.antenna], 'ro', ms=8 )
+        ax.plot(coords[0, antID], coords[1, antID], 'ro', ms=8 )
         ax.set_title("{} UTC".format(datetime.utcfromtimestamp(f['times'][i])))
         cbar = ax.tricontourf(coords[0], coords[1], arr[:,i], np.arange(phaseMin,phaseMax, (phaseMax-phaseMin)/50),extend='both')
         # cbar.set_clim(vmin=phaseMin, vmax=phaseMax)

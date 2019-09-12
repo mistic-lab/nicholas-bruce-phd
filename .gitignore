@@ -1,0 +1,6 @@
+
+venv/
+
+.vscode/
+
+specutils/__pycache__/
