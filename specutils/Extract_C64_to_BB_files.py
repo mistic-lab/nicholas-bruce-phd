@@ -45,12 +45,17 @@ fileroots = [
 '1565296786'
 ]
 
-if not os.path.exists('/home/nsbruce/Documents/RFI/460DATA/waveforms'):
-    os.mkdir('/home/nsbruce/Documents/RFI/460DATA/waveforms')
+datDir = '/media/nsbruce/Backup Plus/RAW/'
+h5Dir = '/home/nsbruce/Documents/RFI/460DATA/'
+waveformsDir = '/home/nsbruce/Documents/RFI/460DATA/waveforms/'
+
+if not os.path.exists(waveformsDir):
+    print("Making waveforms dir at {}".format(waveformsDir))
+    os.mkdir(waveformsDir)
 
 for fr in fileroots:
-    h5Name = '/home/nsbruce/Documents/RFI/460DATA/'+fr+'.h5'
-    rawName = '/media/nsbruce/Backup Plus/460MHz/'+fr+'.dat'
+    h5Name = h5Dir+fr+'.h5'
+    rawName = datDir+fr+'.dat'
 
     print('Opening {}'.format(h5Name))
     with h5py.File(h5Name, 'r') as h5:
@@ -68,7 +73,7 @@ for fr in fileroots:
             for i in range(h5['merged_detections'].shape[1]): #[118]: #np.arange(0, h5['merged_detections'].shape[1]):
 
                 f_out = os.path.basename(rawName)
-                current_file = Path('/home/nsbruce/Documents/RFI/460DATA/waveforms/'+f_out + '.%d' %(i) + '.c64')
+                current_file = Path(waveformsDir+f_out + '.%d' %(i) + '.c64')
 
                 if current_file.exists():
                     print("{} already exists".format(f_out + '.%d'%(i)+'.c64'))
@@ -102,8 +107,8 @@ for fr in fileroots:
                 bwc = (y2-y1)
                 print('Bandwidth (channels): %.2f' %(bwc))
 
-                if bwc*t > 250:
-                    continue
+                # if bwc*t > 250:
+                #     continue
                 
                 # Normalized Frequency Adjusted for channel offset.
                 cFreq = (fc-nChan/2)/float(nChan) 
@@ -153,5 +158,5 @@ for fr in fileroots:
                 x -= np.mean(x)
 
 
-                x.astype(np.complex64).tofile('/home/nsbruce/Documents/RFI/460DATA/waveforms/'+f_out + '.%d' %(i) + '.c64')
+                x.astype(np.complex64).tofile(waveformsDir+f_out + '.%d' %(i) + '.c64')
 
