@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
-import argparse
 import h5py
 import numpy as np
-from scipy.signal import lfilter, remez, freqz, spectrogram
-import matplotlib.pyplot as plt
+from scipy.signal import lfilter, remez, spectrogram
 import os
 from pathlib import Path
-from multiprocessing import Pool, cpu_count
+from multiprocessing import cpu_count
 import itertools
 from joblib import Parallel, delayed
-
-# parser = argparse.ArgumentParser()
-# parser.add_argument("h5", help="HDF5 File to parse.")
-# parser.add_argument("raw", help="Raw data file.")
-# args = parser.parse_args()
 
 fileroots = [
 '1565289740', 
@@ -52,15 +45,19 @@ fileroots = [
 # h5Dir = '/home/nsbruce/Documents/RFI/460DATA/'
 # waveformsDir = '/home/nsbruce/Documents/RFI/460DATA/waveforms/'
 
-datDir = '/Volumes/Backup Plus/RAW/'
-h5Dir = '/Volumes/Backup Plus/Spectra/'
-waveformsDir = '/Volumes/Backup Plus/waveforms/'
+# datDir = '/Volumes/Backup Plus/RAW/'
+# h5Dir = '/Volumes/Backup Plus/Spectra/'
+# waveformsDir = '/Volumes/Backup Plus/waveforms/'
+
+datDir = '/home/nsbruce/project/RFI/RAW/'
+h5Dir = '/home/nsbruce/project/RFI/Spectra/'
+waveformsDir = '/home/nsbruce/project/RFI/waveforms/'
 
 if not os.path.exists(waveformsDir):
     print("Making waveforms dir at {}".format(waveformsDir))
     os.mkdir(waveformsDir)
 
-def extractBB(i, h5Name, rawName, waveformsDir, verbose=True):
+def extractBB(i, h5Name, rawName, waveformsDir, verbose=False):
     """
     Parameters
     ----------
