@@ -2,8 +2,8 @@
 #SBATCH --account=def-peterdri
 #SBATCH --time=05:00:00
 #SBATCH --job-name=AE-dataset-builder
-#SBATCH --mem=150G
-#SBATCH --cpus-per-task=15
+#SBATCH --mem=50G
+#SBATCH --cpus-per-task=8
 
 module load python/3.7.4
 module load scipy-stack/2019a
