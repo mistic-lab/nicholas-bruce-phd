@@ -4,10 +4,10 @@ import argparse
 
 
 parser = argparse.ArgumentParser('Pulls a single antenna into a separate .dat file from LWA data')
-parser.add_argument('--input', type=string, help='raw LWA-SV file path')
+parser.add_argument('--input', type=str, help='raw LWA-SV file path')
 parser.add_argument('--stand', type=int, default=5, help='DP stand ID')
 parser.add_argument('--pol', type=int, default=0, help='antenna polarization')
-parser.add_argument('--output', type=string, help='output file name')
+parser.add_argument('--output', type=str, help='output file name')
 args = parser.parse_args()
 
 def extract_single_ant(input_file, dp_stand_id, polarization):
