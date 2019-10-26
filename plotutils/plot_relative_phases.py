@@ -6,11 +6,11 @@ from datetime import datetime
 
 
 parser = argparse.ArgumentParser(
-    description='Creates an ACM from integrated spectra.', 
+    description='Plots relative phase on ground map', 
     formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 parser.add_argument('input', type=str,
-                    help='input h5 file of time series')
+                    help='input h5 file of ACM')
 parser.add_argument('--find-antenna', type=bool, default=True,
                     help="Whether to search h5 attributes for a reference antenna")
 parser.add_argument("--antenna", type=int,
@@ -20,7 +20,7 @@ parser.add_argument("--unwrap", type=bool, default=False,
 args = parser.parse_args()
 
 
-coords = np.load('/home/nsbruce/Documents/UViip/LWA_Data/antennas.npy')
+coords = np.load('/Users/nsbruce/Documents/UViip/LWA_Data/antennas.npy')
 #0:x, 1:y, 2:z
 coords = coords[:,:-1]
 
