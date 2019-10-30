@@ -4,3 +4,5 @@ venv/
 .vscode/
 
 specutils/__pycache__/
+
+plotutils/.DS_Store
