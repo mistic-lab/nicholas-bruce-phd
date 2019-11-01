@@ -34,12 +34,19 @@ for step in range(args.num_steps):
 
 print("{} s per step".format(step_time))
 print("{} samples per step".format(args.sample_rate*step_time))
+print("f0={} Hz, f1={} Hz".format(args.start_frequency, step_fc))
 print("output.shape: {}".format(output.shape))
 
+plt.specgram(output, Fs=args.sample_rate, NFFT=2048, noverlap=0)
+plt.show()
 
-corr = signal.fftconvolve(output, output[::-1])
+double = np.append(output, output)
 
-plt.plot(np.angle(corr))
+
+corr = signal.fftconvolve(double, np.conj(output[::-1]))
+
+# plt.ylim([0, np.max(corr)])
+plt.plot(corr)
 plt.show()
 
 # np.save('steppedsweep.npy', output)
