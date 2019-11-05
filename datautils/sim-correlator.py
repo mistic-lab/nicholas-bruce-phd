@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
+from sweeps import generateSteppedSweep
 
 fs = 100000
 
@@ -57,22 +58,33 @@ def noiseMaker(x, SNR, duration=2.5, Fs=100000):
 
 fig, (ax1, ax2, ax3) = plt.subplots(3, figsize=(20,10))
 
-sim = np.load('steppedsweep_normal.npy')
 
-ax1.specgram(sim, Fs=fs, NFFT=2048, noverlap=0)
+Fs = 100000
+f0 = -35000
+f1 = 35000
+sweepT = 35
+stepHz = 100
+phase='random'
+
+NFFT = 2048
+
+sim = generateSteppedSweep(Fs, f0, f1, sweepT, stepHz, phase=phase)
+
+ax1.specgram(sim, Fs=fs, NFFT=NFFT, noverlap=0)
 ax1.set_title('Simulated stepped sweep')
 ax1.set_xlabel("Time (s)")
 ax1.set_ylabel("Frequency (Hz)")
 
-simfaster = np.load('steppedsweep.npy')
+sim2 = generateSteppedSweep(Fs, f0, f1, sweepT, stepHz, phase=phase)
 
-noise = noiseMaker(simfaster, 0.25)
-noisy_sim = addAWGNbySNR(simfaster, 0.25)
+SNR = 0.005 #dB
+noise = noiseMaker(sim2, SNR, duration=2.5, Fs=Fs)
+noisy_sim = addAWGNbySNR(sim2, SNR)
 data = np.append(noise, noisy_sim)
 data = np.append(data, noise)
 
-ax2.specgram(data, Fs=fs, NFFT=2048, noverlap=0)
-ax2.set_title('Simulated 1s faster sweep with padding and 0.25dB SNR over AWGN')
+ax2.specgram(data, Fs=fs, NFFT=NFFT, noverlap=0)
+ax2.set_title('Simulated sweep with padding and {} dB SNR over AWGN'.format(SNR))
 ax2.set_xlabel("Time (s)")
 ax2.set_ylabel("Frequency (Hz)")
 
