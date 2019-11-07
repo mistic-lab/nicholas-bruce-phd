@@ -6,3 +6,5 @@ venv/
 specutils/__pycache__/
 
 plotutils/.DS_Store
+
+datautils/__pycache__/

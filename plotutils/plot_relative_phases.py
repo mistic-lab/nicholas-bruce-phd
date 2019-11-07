@@ -20,7 +20,7 @@ parser.add_argument("--unwrap", type=bool, default=False,
 args = parser.parse_args()
 
 
-coords = np.load('/Users/nsbruce/Documents/UViip/LWA_Data/antennas.npy')
+coords = np.load('/home/nsbruce/Documents/UViip/LWA_Data/antennas.npy')
 #0:x, 1:y, 2:z
 coords = coords[:,:-1]
 
@@ -51,7 +51,7 @@ with h5py.File(args.input,'r') as f:
 
     for i in range(arr.shape[1]):
         fig, ax = plt.subplots()
-        fig.suptitle("Relative phase of 5MHz signal (fft size 1000)")
+        fig.suptitle("Phase of {} relative to marked antenna (fft size {})",format('7MHz signal', 1000))
         ax.plot(coords[0], coords[1], 'ko', ms=3)
         ax.plot(coords[0, antID], coords[1, antID], 'ro', ms=8 )
         ax.set_title("{} UTC".format(datetime.utcfromtimestamp(f['times'][i])))
