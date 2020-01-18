@@ -15,7 +15,7 @@ export ATLAS=/project/def-peterdri/software/atlas-3.10.2
 
 export ATLAS_HOME=/project/def-peterdri/software/atlas-3.10.2
 
-source /home/nsbruce/projects/def-peterdri/software/lwa-1.2.4/bin/activate
+source /home/nsbruce/projects/def-peterdri/nsbruce/virtual-environments/lwa-1.2.4/bin/activate
 
 TBN_DIR=/home/nsbruce/projects/def-peterdri/LWA_Data/2019-12-29/RAW_TBN/
 NUM_SEC=240
