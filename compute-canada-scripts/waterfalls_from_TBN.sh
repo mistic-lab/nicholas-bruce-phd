@@ -11,6 +11,8 @@ module load fftw/3.3.6
 
 module load scipy-stack/2019a
 
+module load python/2.7
+
 export ATLAS=/project/def-peterdri/software/atlas-3.10.2
 
 export ATLAS_HOME=/project/def-peterdri/software/atlas-3.10.2
