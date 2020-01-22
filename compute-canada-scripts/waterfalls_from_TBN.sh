@@ -22,7 +22,7 @@ source /home/nsbruce/projects/def-peterdri/nsbruce/virtual-environments/lwa-1.2.
 TBN_DIR=/home/nsbruce/projects/def-peterdri/LWA_Data/2019-12-29/RAW_TBN/
 NUM_SEC=240
 
-python2 /home/nsbruce/UViip/lwa-tools/code/plot_waterfallsTBN.py $TBN_DIR -s $NUM_SEC
+python2 /home/nsbruce/UViip/lwa-tools/code/plot_waterfallsTBN.py $TBN_DIR -l $NUM_SEC
 
 deactivate
 
