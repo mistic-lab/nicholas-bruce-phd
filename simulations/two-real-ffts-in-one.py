@@ -51,17 +51,20 @@ x2 = np.sin(2*np.pi*4e3*t_arr)
 x1 = addAWGNbySNR(x1, 5)
 x2 = addAWGNbySNR(x2, 40)
 
+x1 = np.real(x1)
+x2 = np.real(x2)
+
 N = len(t_arr)
 
 y = x1 + 1j*x2
 
 Y = np.fft.fft(y)
 
-X1 = np.empty(N)
+X1 = np.empty(N).astype(np.complex)
 X2 = np.empty_like(X1)
 for k in np.arange(N):
     X1[k] = 0.5*(Y[k]+np.conj(Y[-1-k]))
-    X2[k] = -0.5j*(Y[k]-np.conj(-1-k))
+    X2[k] = -0.5j*(Y[k]-np.conj(Y[-1-k]))
 
 
 
