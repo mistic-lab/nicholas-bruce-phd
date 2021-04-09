@@ -7,7 +7,8 @@ import plotly.graph_objects as go
 # path = '/Users/nsbruce/Documents/UViip/size-3-res-0.01/'
 # path='/Users/nsbruce/Documents/UViip/size-10-res-0.05/gridded-model/'
 # path='/Users/nsbruce/Documents/UViip/size-10-res-0.05/model-only/'
-path='/Users/nsbruce/Documents/UViip/vis-modelling-results/sim-vis-img/'
+# path='/Users/nsbruce/Documents/UViip/vis-modelling-results/sim-vis-img/'
+path='/Users/nsbruce/Documents/UViip/vis-modelling-results/raw_and_gridded_vis/'
 
 def point_source_visibility_model(u, v, l, m):
     '''
@@ -47,7 +48,13 @@ def get_nscatters(*args, **kwargs):
 
     return fig
 
-# ## General from a single image-model-fittin.py run
+## General from a single image-model-fittin.py run
+ug = np.load(path+'grid_u.npy')
+vg = np.load(path+'grid_v.npy')
+visg=np.load(path+'gridded_vis.npy')
+
+uvwr = np.load(path+'uvw.npy')
+visr = np.load(path+'vis.npy')
 # ug = np.load(path+'gridded-u0.npy')
 # vg = np.load(path+'gridded-v0.npy')
 # visg=np.load(path+'gridded-vis0.npy')
@@ -56,23 +63,24 @@ def get_nscatters(*args, **kwargs):
 # visr = np.load(path+'vis0.npy')
 
 
-# ug = ug.flatten()
-# vg = vg.flatten()
-# visg = visg.flatten()
-# visr=visr[:,0]
-# ur=uvwr[:,0,0]
-# vr=uvwr[:,1,0]
+ug = ug.flatten()
+vg = vg.flatten()
+visg = visg.flatten()
+visr=visr[:,0]
+ur=uvwr[:,0]#,0]
+vr=uvwr[:,1]#,0]
 
-# dr={'x':ur, 'y':vr, 'z':np.angle(visr), 'name':'Raw', 'color':'red'}
-# # dr={'x':ur, 'y':vr, 'z':np.zeros(visr.shape), 'name':'Raw', 'color':'red'}
+dr={'x':ur, 'y':vr, 'z':np.angle(visr), 'name':'Raw', 'color':'red'}
+# dr={'x':ur, 'y':vr, 'z':np.zeros(visr.shape), 'name':'Raw', 'color':'red'}
 
 # #! NOTE THE NEGATIVE
-# dg={'x':-vg, 'y':ug, 'z':-np.angle(visg), 'name':'Gridded', 'color':'black'} # works
+dg={'x':-vg, 'y':ug, 'z':-np.angle(visg), 'name':'Gridded', 'color':'black'} # works
 # # dg={'x':-vg, 'y':ug, 'z':np.abs(visg), 'name':'Gridded', 'color':'black'} # mag
 # # dg={'x':-ug, 'y':vg, 'z':np.zeros(visr.shape), 'name':'Gridded', 'color':'black'} #zeroed
 
-# fig=get_nscatters(dr, dg, xlabel='u', ylabel='v', zlabel='vis phase')
-
+fig=get_nscatters(dr, dg, xlabel='u', ylabel='v', zlabel='vis phase')
+fig.update_layout(scene=dict(xaxis=dict(range=[-3,3]), yaxis=dict(range=[-3,3])))
+fig.show()
 ## Models
 #raw
 # visr_model = point_source_visibility_model(ur, vr, 0.22, 0.32)
@@ -115,38 +123,38 @@ def get_nscatters(*args, **kwargs):
 
 ## sim-vis-img.py run
 # raw
-uvwr = np.load(path+'model-uvw.npy')
-visr = np.load(path+'model-vis.npy')
+# uvwr = np.load(path+'model-uvw.npy')
+# visr = np.load(path+'model-vis.npy')
 
-visr=visr[:,0]
-ur=uvwr[:,0,0]
-vr=uvwr[:,1,0]
-dr={'x':ur, 'y':vr, 'z':np.angle(visr), 'name':'Raw', 'color':'red'}
+# visr=visr[:,0]
+# ur=uvwr[:,0,0]
+# vr=uvwr[:,1,0]
+# dr={'x':ur, 'y':vr, 'z':np.angle(visr), 'name':'Raw', 'color':'red'}
 
-#gridded
-# unames  =['gridded-u-size-10-res-0.1-wres-0.5.npy', 'gridded-u-size-20-res-0.1-wres-0.05.npy', 'gridded-u-size-175-res-0.5-wres-0.5.npy', 'gridded-u-size-60-res-0.3-wres-0.15.npy']
-# vnames  =['gridded-v-size-10-res-0.1-wres-0.5.npy', 'gridded-v-size-20-res-0.1-wres-0.05.npy', 'gridded-u-size-175-res-0.5-wres-0.5.npy', 'gridded-u-size-60-res-0.3-wres-0.15.npy']
-# visnames=['gridded-vis-size-10-res-0.05-wres-0.5.npy', 'gridded-vis-size-175-res-0.5-wres-0.5.npy', 'gridded-vis-size-10-res-0.1-wres-0.5.npy', 'gridded-vis-size-5-res-0.01-wres-0.5.npy']
-gridded_params=[{'size':10,'res':0.1, 'wres':0.5}, {'size':20,'res':0.1, 'wres':0.05}, {'size':175,'res':0.5, 'wres':0.5}, {'size':60,'res':0.3, 'wres':0.15}]
+# #gridded
+# # unames  =['gridded-u-size-10-res-0.1-wres-0.5.npy', 'gridded-u-size-20-res-0.1-wres-0.05.npy', 'gridded-u-size-175-res-0.5-wres-0.5.npy', 'gridded-u-size-60-res-0.3-wres-0.15.npy']
+# # vnames  =['gridded-v-size-10-res-0.1-wres-0.5.npy', 'gridded-v-size-20-res-0.1-wres-0.05.npy', 'gridded-u-size-175-res-0.5-wres-0.5.npy', 'gridded-u-size-60-res-0.3-wres-0.15.npy']
+# # visnames=['gridded-vis-size-10-res-0.05-wres-0.5.npy', 'gridded-vis-size-175-res-0.5-wres-0.5.npy', 'gridded-vis-size-10-res-0.1-wres-0.5.npy', 'gridded-vis-size-5-res-0.01-wres-0.5.npy']
+# gridded_params=[{'size':10,'res':0.1, 'wres':0.5}, {'size':20,'res':0.1, 'wres':0.05}, {'size':175,'res':0.5, 'wres':0.5}, {'size':60,'res':0.3, 'wres':0.15}]
 
-d1={}
-d2={}
-d3={}
-d4={}
-dicts=[d1,d2,d3,d4]
-for i in np.arange(len(gridded_params)):
-    ug = np.load(path+'gridded-u-size-{}-res-{}-wres-{}.npy'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])).flatten()
-    vg = np.load(path+'gridded-v-size-{}-res-{}-wres-{}.npy'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])).flatten()
-    visg=np.load(path+'gridded-vis-size-{}-res-{}-wres-{}.npy'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])).flatten()
+# d1={}
+# d2={}
+# d3={}
+# d4={}
+# dicts=[d1,d2,d3,d4]
+# for i in np.arange(len(gridded_params)):
+#     ug = np.load(path+'gridded-u-size-{}-res-{}-wres-{}.npy'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])).flatten()
+#     vg = np.load(path+'gridded-v-size-{}-res-{}-wres-{}.npy'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])).flatten()
+#     visg=np.load(path+'gridded-vis-size-{}-res-{}-wres-{}.npy'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])).flatten()
 
-    dicts[i]['x']=-vg
-    dicts[i]['y']=ug
-    dicts[i]['z']=-np.angle(visg)
-    dicts[i]['name']='Gridded w/ size={} res={} wres={}'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])
-    dicts[i]['color']='black'
+#     dicts[i]['x']=-vg
+#     dicts[i]['y']=ug
+#     dicts[i]['z']=-np.angle(visg)
+#     dicts[i]['name']='Gridded w/ size={} res={} wres={}'.format(gridded_params[i]['size'],gridded_params[i]['res'],gridded_params[i]['wres'])
+#     dicts[i]['color']='black'
 
-fig=get_nscatters(dr, d1, d2, d3, d4, xlabel='u', ylabel='v', zlabel='vis phase')
+# fig=get_nscatters(dr, d1, d2, d3, d4, xlabel='u', ylabel='v', zlabel='vis phase')
 
 
-fig.write_html(path+'scatters.html')
-fig.show()
+# fig.write_html(path+'scatters.html')
+# fig.show()
