@@ -3,8 +3,7 @@ venv/
 
 .vscode/
 
-specutils/__pycache__/
+**/__pycache__/**
+**/.DS_Store
 
-plotutils/.DS_Store
-
-datautils/__pycache__/
+**/*.npy
