@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "nicholas-bruce-phd"
+version = "0.1.0"
+description = ""
+authors = ["Nicholas Bruce <nsbruce@uvic.ca>"]
+readme = "README.md"
+packages = [{include = "nicholas_bruce_phd"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+numpy = "^1.23.3"
+scipy = "^1.9.1"
+plotly = "^5.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
