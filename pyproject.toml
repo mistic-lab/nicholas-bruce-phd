@@ -9,7 +9,7 @@ packages = [{include = "nicholas_bruce_phd"}]
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
 numpy = "^1.23.3"
-scipy = "^1.9.1"
+scipy = "^1.10.0"
 plotly = "^5.10.0"
 
 
